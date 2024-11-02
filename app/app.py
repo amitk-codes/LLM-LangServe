@@ -1,29 +1,23 @@
-from dotenv import load_dotenv;
+from dotenv import load_dotenv
 from fastapi import FastAPI
-from langserve import add_routes;
+from langserve import add_routes
 from langchain_openai import ChatOpenAI
 from langchain_ollama import OllamaLLM
-from langchain_core.prompts import ChatPromptTemplate;
-import uvicorn;
+from langchain_core.prompts import ChatPromptTemplate
+import uvicorn
 
-import os;
+import os
 
 # setting up env
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
 # setting up the app
-app=FastAPI(
-  title="Amit's LangServe",
-  version="1.0",
-  description="A simple project of Langserve"
+app = FastAPI(
+    title="Amit's LangServe", version="1.0", description="A simple project of Langserve"
 )
 
-add_routes(
-  app,
-  ChatOpenAI(),
-  path="/openai"
-)
+add_routes(app, ChatOpenAI(), path="/openai")
 
 openai_model = ChatOpenAI()
 
@@ -35,18 +29,10 @@ prompt1 = ChatPromptTemplate("Write me an essay about {topic} with 100 words")
 # we'll use llama_model from prompt2
 prompt2 = ChatPromptTemplate("Write me an poem about {topic} with 100 words")
 
-add_routes(
-  app,
-  prompt1 | openai_model,
-  path="/essay"
-)
+add_routes(app, prompt1 | openai_model, path="/essay")
 
-add_routes(
-  app,
-  prompt2 | llama_model,
-  path="/poem"
-)
+add_routes(app, prompt2 | llama_model, path="/poem")
 
 # running app
-if __name__ == "__main__" : 
-  uvicorn.run(app, host = "localhost", port = 8000)
+if __name__ == "__main__":
+    uvicorn.run(app, host="localhost", port=8000)
