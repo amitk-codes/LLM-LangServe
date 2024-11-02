@@ -4,6 +4,7 @@ from langserve import add_routes;
 from langchain_openai import ChatOpenAI
 from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate;
+import uvicorn;
 
 import os;
 
@@ -46,3 +47,6 @@ add_routes(
   path="/poem"
 )
 
+# running app
+if __name__ == "__main__" : 
+  uvicorn.run(app, host = "localhost", port = 8000)
