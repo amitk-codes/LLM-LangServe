@@ -24,10 +24,14 @@ openai_model = ChatOpenAI()
 llama_model = OllamaLLM(model="llama3.2")
 
 # we'll use our openai_model for prompt1
-prompt1 = ChatPromptTemplate("Write me an essay about {topic} with 100 words")
+prompt1 = ChatPromptTemplate.from_template(
+    "Write me an essay about {topic} with 100 words"
+)
 
 # we'll use llama_model from prompt2
-prompt2 = ChatPromptTemplate("Write me an poem about {topic} with 100 words")
+prompt2 = ChatPromptTemplate.from_template(
+    "Write me an poem about {topic} with 100 words"
+)
 
 add_routes(app, prompt1 | openai_model, path="/essay")
 
@@ -35,4 +39,4 @@ add_routes(app, prompt2 | llama_model, path="/poem")
 
 # running app
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="localhost", port=8080)
